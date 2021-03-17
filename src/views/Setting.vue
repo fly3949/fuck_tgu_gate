@@ -154,6 +154,7 @@ export default defineComponent({
         form.photo = info.photo
         form.name = info.name
         form.faculty = info.faculty
+        form.stuNum = info.stuNum
         form.leaveTime = info.leaveTime ? info.leaveTime : dayjs().format('YYYY-MM-DD HH:mm')
         form.backTime = info.backTime ? info.backTime : dayjs().format('YYYY-MM-DD HH:mm')
         if (form.photo) {
