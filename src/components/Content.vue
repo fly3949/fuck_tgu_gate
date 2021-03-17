@@ -1,7 +1,7 @@
 <template>
-  <div class="content" :class="{['no-photo']: !photo}">
+  <div class="content" v-if="info" :class="{['no-photo']: !info.photo}">
     <div class="con">
-      <div class="pic"><img id="zpimg"></div>
+      <div class="pic"><img v-if="info.photo" id="zpimg" :src="info.photo"></div>
       <div class="title name">姓名：<span name="xm"></span></div>
       <div class="title xy">学院：<span name="xy"></span></div>
       <div class="title xh">学号：<span name="gh"></span></div>
@@ -10,9 +10,9 @@
       <div class="title sk">现在时刻：<span name="sj" style="color:red"></span></div>
       <div class="statues" id='cx_btn' style="display:none">我要出校</div>
       <div class="statues" id='jx_btn' style="display:none">我要回校</div>
-      <div class="und" id="jzlogo"><img src="@/assets/und.png"></div>
-      <div class="undtitle">暂无出校权限</div>
-      <div class="undtext">
+      <div class="und" id="jzlogo" v-if="state === 'forbidden'"><img src="@/assets/und.png"></div>
+      <div class="undtitle" v-if="state === 'forbidden'">暂无出校权限</div>
+      <div class="undtext" v-if="state === 'forbidden'">
         <p><span class="num">1.</span><span class="text">请您去学生外出报备申请中进行出校申请。</span></p>
         <p><span class="num">2.</span><span class="text">使用过程中如出现误点请联系辅导员进行沟通。</span></p>
       </div>
@@ -21,17 +21,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, inject, PropType } from 'vue'
+import { IForm } from '@/types/form'
 
 export default defineComponent({
   props: {
-    photo: {
-      type: String,
-      default: ''
+    state: {
+      type: String as PropType<'forbidden' | 'pass' | 'out'>,
+      default: 'forbidden'
     }
   },
   setup () {
-    return {}
+    const info : undefined | IForm = inject('info')
+
+    return { info }
   }
 })
 </script>
@@ -69,6 +72,12 @@ export default defineComponent({
     text-align: center;
     width: 100%;
     margin-bottom: 17px;
+
+    #zpimg {
+      width: 60%;
+      max-width: 150px;
+      border-radius: 25px;
+    }
   }
 
   .title {
@@ -129,6 +138,7 @@ export default defineComponent({
 
 @media screen and (max-width: 479px) {
   .content {
+    overflow: hidden;
     padding: 0 20px 50px;
 
     .undtitle {
@@ -152,12 +162,6 @@ export default defineComponent({
       height: 40px;
       line-height: 40px;
       font-size: 18px;
-    }
-    .pic {
-      img {
-        width: 60%;
-        max-width: 150px;
-      }
     }
   }
 }

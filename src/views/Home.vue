@@ -1,19 +1,45 @@
 <template>
   <div class="wrapper red">
     <div class="body">
-      <div class="logo"><img src="@/assets/logo.png"></div>
+      <div class="logo"><img src="@/assets/logo.png" @click="handleOpenSetting"></div>
       <Content />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent, onMounted, provide } from 'vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import Content from '@/components/Content.vue'
+import { Toast } from 'vant'
 
 export default defineComponent({
   name: 'Home',
-  components: { Content }
+  components: { Content },
+  setup () {
+    const router = useRouter()
+    const store = useStore()
+
+    function handleOpenSetting () {
+      router.push({ name: 'Setting' })
+    }
+
+    const form = computed(() => {
+      return store.state.info
+    })
+
+    onMounted(() => {
+      if (!form.value.name || !form.value.faculty || !form.value.stuNum) {
+        Toast('请完善审批信息')
+        router.push({ name: 'Setting' })
+      }
+    })
+
+    provide('info', form.value)
+
+    return { handleOpenSetting }
+  }
 })
 </script>
 
