@@ -1,0 +1,164 @@
+<template>
+  <div class="content" :class="{['no-photo']: !photo}">
+    <div class="con">
+      <div class="pic"><img id="zpimg"></div>
+      <div class="title name">姓名：<span name="xm"></span></div>
+      <div class="title xy">学院：<span name="xy"></span></div>
+      <div class="title xh">学号：<span name="gh"></span></div>
+      <div class="title starttime">出发时间：<span name="qjkssj"></span></div>
+      <div class="title endtime">返回时间：<span name="qjjssj"></span></div>
+      <div class="title sk">现在时刻：<span name="sj" style="color:red"></span></div>
+      <div class="statues" id='cx_btn' style="display:none">我要出校</div>
+      <div class="statues" id='jx_btn' style="display:none">我要回校</div>
+      <div class="und" id="jzlogo"><img src="@/assets/und.png"></div>
+      <div class="undtitle">暂无出校权限</div>
+      <div class="undtext">
+        <p><span class="num">1.</span><span class="text">请您去学生外出报备申请中进行出校申请。</span></p>
+        <p><span class="num">2.</span><span class="text">使用过程中如出现误点请联系辅导员进行沟通。</span></p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  props: {
+    photo: {
+      type: String,
+      default: ''
+    }
+  },
+  setup () {
+    return {}
+  }
+})
+</script>
+
+<style lang="scss" scoped>
+.content {
+  padding: 0 46px 122px 46px;
+  position: relative;
+  margin: 0 28px;
+
+  &.no-photo {
+    &:before {
+      top: 0;
+    }
+  }
+
+  &:before {
+    position: absolute;
+    background: #fff;
+    content: "";
+    left: 0;
+    right: 0;
+    top: 97px;
+    bottom: 5px;
+    border-radius: 25px;
+    box-shadow: 0 0 6px #9f9f9f;
+  }
+
+  .con {
+    position: relative;
+    z-index: 3;
+  }
+
+  .pic {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 17px;
+  }
+
+  .title {
+    font-size: 26px;
+    color: #3b3b3b;
+    line-height: 69px;
+    border-bottom: 1px solid #e3e3e3;
+  }
+
+  .und {
+    text-align: center;
+    margin: 30px 0 15px;
+  }
+
+  .undtitle {
+    padding-left: 42px;
+    background: url("../assets/wr.png") no-repeat left center;
+    font-size: 22px;
+    line-height: 30px;
+    color: #e03636;
+  }
+
+  .undtext {
+    font-size: 22px;
+    line-height: 36px;
+    color: #454545;
+    margin-top: 17px;
+
+    p {
+      margin-top: 12px;
+    }
+
+    span {
+      display: inline-block;
+      vertical-align: top;
+
+      &.num {
+        width: 5%;
+      }
+
+      &.text {
+        width: 95%;
+      }
+    }
+  }
+
+  .statues {
+    width: 235px;
+    height: 72px;
+    line-height: 73px;
+    text-align: center;
+    border-radius: 36px;
+    color: #fff;
+    margin: 76px auto 0;
+    font-size: 28px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .content {
+    padding: 0 20px 50px;
+
+    .undtitle {
+      font-size: 14px;
+    }
+    .undtext {
+      font-size: 14px;
+    }
+    .title {
+      font-size: 13px;
+      line-height: 49px;
+    }
+    .statues {
+      margin-top: 40px;
+      width: 70%;
+      height: 40px;
+      line-height: 40px;
+      font-size: 18px;
+      margin-top: 40px;
+      width: 70%;
+      height: 40px;
+      line-height: 40px;
+      font-size: 18px;
+    }
+    .pic {
+      img {
+        width: 60%;
+        max-width: 150px;
+      }
+    }
+  }
+}
+</style>
