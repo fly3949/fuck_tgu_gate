@@ -7,7 +7,9 @@ import { Button, Form, Field, NavBar, Uploader, DatetimePicker, Popup, Toast } f
 import 'normalize.css'
 import 'vant/lib/index.css'
 
-createApp(App)
+const app = createApp(App)
+
+app
   .use(store)
   .use(router)
   .use(Button)

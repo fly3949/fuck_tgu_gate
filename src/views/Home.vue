@@ -2,22 +2,29 @@
   <div class="wrapper" :class="[backgroundColorClass]">
     <div class="body">
       <div class="logo"><img src="@/assets/logo.png" @click="handleOpenSetting"></div>
-      <Content :state="state" @out="handleOutSchool" @enter="handleEnterSchool" />
+      <Content :state="state" @out="showOutModal = true" @enter="showEnterModal = true" />
     </div>
+
+    <Modal v-model="showOutModal" @confirm="handleOutSchool" @cancel="showOutModal = false" title="出校确认">确认是否出校？</Modal>
+    <Modal v-model="showEnterModal" @confirm="handleEnterSchool" @cancel="showEnterModal = false" title="进校确认">确认是否进校？</Modal>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, provide } from 'vue'
+import { computed, ref, defineComponent, onMounted, provide } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import Content from '@/components/Content.vue'
 import { Toast } from 'vant'
 import dayjs from '@/utils/dayjs'
+import Modal from '@/components/Modal.vue'
+
+const showOutModal = ref(false)
+const showEnterModal = ref(false)
 
 export default defineComponent({
   name: 'Home',
-  components: { Content },
+  components: { Content, Modal },
   setup () {
     const router = useRouter()
     const store = useStore()
@@ -67,16 +74,18 @@ export default defineComponent({
     })
 
     function handleOutSchool () {
+      showOutModal.value = false
       store.commit('SET_STATUS', 2)
     }
 
     function handleEnterSchool () {
+      showEnterModal.value = false
       store.commit('SET_STATUS', 3)
     }
 
     provide('info', form.value)
 
-    return { handleOpenSetting, state, backgroundColorClass, handleOutSchool, handleEnterSchool }
+    return { handleOpenSetting, state, backgroundColorClass, handleOutSchool, handleEnterSchool, showOutModal, showEnterModal }
   }
 })
 </script>
