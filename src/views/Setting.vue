@@ -92,7 +92,8 @@ const form = reactive({
   faculty: '',
   stuNum: '',
   leaveTime: '',
-  backTime: ''
+  backTime: '',
+  status: 0 // 每次保存都初始化出入校状态
 })
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fileList : Ref<Array<any>> = ref([])

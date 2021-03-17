@@ -9,13 +9,19 @@ export default createStore({
       faculty: '',
       stuNum: '',
       leaveTime: '',
-      backTime: ''
+      backTime: '',
+      status: 0 // 0 默认，1 未出，2 已出未进，3 已进
     }
   },
   mutations: {
     SET_INFO (state, info) {
       state.info = info
       storage.set('INFO', info)
+    },
+    SET_STATUS (state, status) {
+      state.info.status = status
+      storage.set('INFO', state.info)
+      console.log(state)
     }
   },
   actions: {

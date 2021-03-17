@@ -5,14 +5,14 @@
       <div class="title name">姓名：<span name="xm">{{info.name}}</span></div>
       <div class="title xy">学院：<span name="xy">{{info.faculty}}</span></div>
       <div class="title xh">学号：<span name="gh">{{info.stuNum}}</span></div>
-      <div class="title starttime">出发时间：<span name="qjkssj">{{info.leaveTime}}</span></div>
-      <div class="title endtime">返回时间：<span name="qjjssj">{{info.backTime}}</span></div>
+      <div class="title starttime" v-if="state != 'forbidden'">出发时间：<span name="qjkssj">{{info.leaveTime}}</span></div>
+      <div class="title endtime" v-if="state != 'forbidden'">返回时间：<span name="qjjssj">{{info.backTime}}</span></div>
       <div class="title sk">现在时刻：<span name="sj" style="color:red">{{nowTime}}</span></div>
-      <div class="statues" id='cx_btn' style="display:none">我要出校</div>
-      <div class="statues" id='jx_btn' style="display:none">我要回校</div>
-      <div class="und" id="jzlogo" v-if="state === 'forbidden'"><img src="@/assets/und.png"></div>
-      <div class="undtitle" v-if="state === 'forbidden'">暂无出校权限</div>
-      <div class="undtext" v-if="state === 'forbidden'">
+      <div class="statues" id='cx_btn' v-if="state == 'pass'" @click="handleOutSchool">我要出校</div>
+      <div class="statues" id='jx_btn' v-if="state == 'out'" @click="handleEnterSchool">我要回校</div>
+      <div class="und" id="jzlogo" v-if="state == 'forbidden'"><img src="@/assets/und.png"></div>
+      <div class="undtitle" v-if="state == 'forbidden'">暂无出校权限</div>
+      <div class="undtext" v-if="state == 'forbidden'">
         <p><span class="num">1.</span><span class="text">请您去学生外出报备申请中进行出校申请。</span></p>
         <p><span class="num">2.</span><span class="text">使用过程中如出现误点请联系辅导员进行沟通。</span></p>
       </div>
@@ -32,7 +32,8 @@ export default defineComponent({
       default: 'forbidden'
     }
   },
-  setup () {
+  emits: ['out', 'enter'],
+  setup (props, { emit }) {
     const info : undefined | IForm = inject('info')
 
     const nowTime = ref(dayjs().format('YYYY-MM-DD HH:mm:ss'))
@@ -41,7 +42,15 @@ export default defineComponent({
       nowTime.value = dayjs().format('YYYY-MM-DD HH:mm:ss')
     }, 1000)
 
-    return { info, nowTime }
+    function handleOutSchool () {
+      emit('out')
+    }
+
+    function handleEnterSchool () {
+      emit('enter')
+    }
+
+    return { info, nowTime, handleOutSchool, handleEnterSchool }
   }
 })
 </script>
@@ -140,6 +149,14 @@ export default defineComponent({
     color: #fff;
     margin: 76px auto 0;
     font-size: 28px;
+
+    &#cx_btn {
+      background: #4daa40;
+    }
+
+    &#jx_btn {
+      background: #e03636;
+    }
   }
 }
 

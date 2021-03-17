@@ -1,8 +1,8 @@
 <template>
-  <div class="wrapper red">
+  <div class="wrapper" :class="[backgroundColorClass]">
     <div class="body">
       <div class="logo"><img src="@/assets/logo.png" @click="handleOpenSetting"></div>
-      <Content />
+      <Content :state="state" @out="handleOutSchool" @enter="handleEnterSchool" />
     </div>
   </div>
 </template>
@@ -13,6 +13,7 @@ import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import Content from '@/components/Content.vue'
 import { Toast } from 'vant'
+import dayjs from '@/utils/dayjs'
 
 export default defineComponent({
   name: 'Home',
@@ -36,9 +37,46 @@ export default defineComponent({
       }
     })
 
+    const state = computed(() => {
+      if (form.value.status === 1) {
+        return 'pass'
+      }
+      if (form.value.status === 2) {
+        return 'out'
+      }
+      if (form.value.status === 3) {
+        return 'forbidden'
+      }
+
+      if (dayjs().isBetween(form.value.leaveTime, form.value.backTime, null, '[]')) {
+        return 'pass'
+      }
+
+      return 'forbidden'
+    })
+
+    const backgroundColorClass = computed(() => {
+      if (state.value.localeCompare('pass') === 0) {
+        return 'green'
+      }
+      if (state.value.localeCompare('out') === 0) {
+        return 'blue'
+      }
+
+      return 'red'
+    })
+
+    function handleOutSchool () {
+      store.commit('SET_STATUS', 2)
+    }
+
+    function handleEnterSchool () {
+      store.commit('SET_STATUS', 3)
+    }
+
     provide('info', form.value)
 
-    return { handleOpenSetting }
+    return { handleOpenSetting, state, backgroundColorClass, handleOutSchool, handleEnterSchool }
   }
 })
 </script>

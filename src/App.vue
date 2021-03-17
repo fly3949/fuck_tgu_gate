@@ -27,6 +27,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .body {
+  min-height: 100vh;
   background-color: #f5f5f5;
 }
 </style>

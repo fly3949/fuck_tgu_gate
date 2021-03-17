@@ -5,4 +5,5 @@ export interface IForm {
   stuNum: string;
   leaveTime: string;
   backTime: string;
+  status: number;
 }
