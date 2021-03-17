@@ -2,12 +2,12 @@
   <div class="content" v-if="info" :class="{['no-photo']: !info.photo}">
     <div class="con">
       <div class="pic"><img v-if="info.photo" id="zpimg" :src="info.photo"></div>
-      <div class="title name">姓名：<span name="xm"></span></div>
-      <div class="title xy">学院：<span name="xy"></span></div>
-      <div class="title xh">学号：<span name="gh"></span></div>
-      <div class="title starttime">出发时间：<span name="qjkssj"></span></div>
-      <div class="title endtime">返回时间：<span name="qjjssj"></span></div>
-      <div class="title sk">现在时刻：<span name="sj" style="color:red"></span></div>
+      <div class="title name">姓名：<span name="xm">{{info.name}}</span></div>
+      <div class="title xy">学院：<span name="xy">{{info.faculty}}</span></div>
+      <div class="title xh">学号：<span name="gh">{{info.stuNum}}</span></div>
+      <div class="title starttime">出发时间：<span name="qjkssj">{{info.leaveTime}}</span></div>
+      <div class="title endtime">返回时间：<span name="qjjssj">{{info.backTime}}</span></div>
+      <div class="title sk">现在时刻：<span name="sj" style="color:red">{{nowTime}}</span></div>
       <div class="statues" id='cx_btn' style="display:none">我要出校</div>
       <div class="statues" id='jx_btn' style="display:none">我要回校</div>
       <div class="und" id="jzlogo" v-if="state === 'forbidden'"><img src="@/assets/und.png"></div>
@@ -21,8 +21,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, PropType } from 'vue'
+import { defineComponent, ref, inject, PropType } from 'vue'
 import { IForm } from '@/types/form'
+import dayjs from '@/utils/dayjs'
 
 export default defineComponent({
   props: {
@@ -34,7 +35,13 @@ export default defineComponent({
   setup () {
     const info : undefined | IForm = inject('info')
 
-    return { info }
+    const nowTime = ref(dayjs().format('YYYY-MM-DD HH:mm:ss'))
+
+    setInterval(() => {
+      nowTime.value = dayjs().format('YYYY-MM-DD HH:mm:ss')
+    }, 1000)
+
+    return { info, nowTime }
   }
 })
 </script>
