@@ -1,5 +1,5 @@
 <template>
-  <div class="content" v-if="info" :class="{['no-photo']: !info.photo}">
+  <div class="content" v-if="info" :class="{['no-photo']: !((state == 'pass' || state == 'out') && info.photo)}">
     <div class="con">
       <div class="pic"><img v-if="(state == 'pass' || state == 'out') && info.photo" id="zpimg" :src="info.photo"></div>
       <div class="title name">姓名：<span name="xm">{{info.name}}</span></div>
