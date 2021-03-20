@@ -1,7 +1,7 @@
 <template>
   <div class="content" v-if="info" :class="{['no-photo']: !info.photo}">
     <div class="con">
-      <div class="pic"><img v-if="info.photo" id="zpimg" :src="info.photo"></div>
+      <div class="pic"><img v-if="(state == 'pass' || state == 'out') && info.photo" id="zpimg" :src="info.photo"></div>
       <div class="title name">姓名：<span name="xm">{{info.name}}</span></div>
       <div class="title xy">学院：<span name="xy">{{info.faculty}}</span></div>
       <div class="title xh">学号：<span name="gh">{{info.stuNum}}</span></div>
