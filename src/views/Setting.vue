@@ -86,61 +86,61 @@ import { useRouter } from 'vue-router'
 import dayjs from '@/utils/dayjs'
 import { useStore } from 'vuex'
 
-const form = reactive({
-  photo: '',
-  name: '',
-  faculty: '',
-  stuNum: '',
-  leaveTime: '',
-  backTime: '',
-  status: 0 // 每次保存都初始化出入校状态
-})
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const fileList : Ref<Array<any>> = ref([])
-
-function usePicker () {
-  const showLeaveTimePicker = ref(false)
-  const showBackTimePicker = ref(false)
-
-  function handleConfirmLeaveTime (value: Date) {
-    form.leaveTime = dayjs(value).format('YYYY-MM-DD HH:mm')
-    if (dayjs(form.backTime).isBefore(form.leaveTime)) {
-      form.backTime = form.leaveTime
-    }
-    showLeaveTimePicker.value = false
-  }
-
-  function handleConfirmBackTime (value: Date) {
-    form.backTime = dayjs(value).format('YYYY-MM-DD HH:mm')
-    if (dayjs(form.leaveTime).isAfter(form.backTime)) {
-      form.leaveTime = form.backTime
-    }
-    showBackTimePicker.value = false
-  }
-
-  return { showLeaveTimePicker, showBackTimePicker, handleConfirmLeaveTime, handleConfirmBackTime }
-}
-
-function useForm () {
-  const router = useRouter()
-  const store = useStore()
-
-  function onSubmit () {
-    console.log(form)
-    store.commit('SET_INFO', form)
-    router.push({ name: 'Home' })
-  }
-
-  function handleReadPhoto (res: {file: File; status: string; message: string; content: string}) {
-    console.log(res)
-    form.photo = res.content
-  }
-
-  return { onSubmit, handleReadPhoto }
-}
-
 export default defineComponent({
   setup () {
+    const form = reactive({
+      photo: '',
+      name: '',
+      faculty: '',
+      stuNum: '',
+      leaveTime: '',
+      backTime: '',
+      status: 0 // 每次保存都初始化出入校状态
+    })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const fileList : Ref<Array<any>> = ref([])
+
+    function usePicker () {
+      const showLeaveTimePicker = ref(false)
+      const showBackTimePicker = ref(false)
+
+      function handleConfirmLeaveTime (value: Date) {
+        form.leaveTime = dayjs(value).format('YYYY-MM-DD HH:mm')
+        if (dayjs(form.backTime).isBefore(form.leaveTime)) {
+          form.backTime = form.leaveTime
+        }
+        showLeaveTimePicker.value = false
+      }
+
+      function handleConfirmBackTime (value: Date) {
+        form.backTime = dayjs(value).format('YYYY-MM-DD HH:mm')
+        if (dayjs(form.leaveTime).isAfter(form.backTime)) {
+          form.leaveTime = form.backTime
+        }
+        showBackTimePicker.value = false
+      }
+
+      return { showLeaveTimePicker, showBackTimePicker, handleConfirmLeaveTime, handleConfirmBackTime }
+    }
+
+    function useForm () {
+      const router = useRouter()
+      const store = useStore()
+
+      function onSubmit () {
+        console.log(form)
+        store.commit('SET_INFO', form)
+        router.push({ name: 'Home' })
+      }
+
+      function handleReadPhoto (res: {file: File; status: string; message: string; content: string}) {
+        console.log(res)
+        form.photo = res.content
+      }
+
+      return { onSubmit, handleReadPhoto }
+    }
+
     const router = useRouter()
     const store = useStore()
 
