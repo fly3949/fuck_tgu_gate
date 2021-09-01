@@ -1,6 +1,8 @@
 <template>
-<div class="body">
-  <router-view/>
+  <div class="body">
+    <FakeWechatBackground>
+      <router-view/>
+    </FakeWechatBackground>
   </div>
 </template>
 
@@ -8,8 +10,10 @@
 import { defineComponent, onMounted } from 'vue'
 import storage from '@/utils/storage'
 import { useStore } from 'vuex'
+import FakeWechatBackground from './components/FakeWechatBackground.vue'
 
 export default defineComponent({
+  components: { FakeWechatBackground },
   setup () {
     const store = useStore()
 
