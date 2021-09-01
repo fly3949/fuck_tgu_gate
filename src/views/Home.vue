@@ -1,13 +1,15 @@
 <template>
-  <div class="wrapper" :class="[backgroundColorClass]">
-    <div class="body">
-      <div class="logo"><img src="@/assets/logo.png" @click="handleOpenSetting"></div>
-      <Content :state="state" @out="showOutModal = true" @enter="showEnterModal = true" />
-    </div>
+  <FakeWechatBackground>
+    <div class="wrapper" :class="[backgroundColorClass]">
+      <div class="body">
+        <div class="logo"><img src="@/assets/logo.png" @click="handleOpenSetting"></div>
+        <Content :state="state" @out="showOutModal = true" @enter="showEnterModal = true" />
+      </div>
 
-    <Modal v-model="showOutModal" @confirm="handleOutSchool" @cancel="showOutModal = false" title="出校确认">确认是否出校？</Modal>
-    <Modal v-model="showEnterModal" @confirm="handleEnterSchool" @cancel="showEnterModal = false" title="进校确认">确认是否进校？</Modal>
-  </div>
+      <Modal v-model="showOutModal" @confirm="handleOutSchool" @cancel="showOutModal = false" title="出校确认">确认是否出校？</Modal>
+      <Modal v-model="showEnterModal" @confirm="handleEnterSchool" @cancel="showEnterModal = false" title="进校确认">确认是否进校？</Modal>
+    </div>
+  </FakeWechatBackground>
 </template>
 
 <script lang="ts">
@@ -18,13 +20,14 @@ import Content from '@/components/Content.vue'
 import { Toast } from 'vant'
 import dayjs from '@/utils/dayjs'
 import Modal from '@/components/Modal.vue'
+import FakeWechatBackground from '../components/FakeWechatBackground.vue'
 
 const showOutModal = ref(false)
 const showEnterModal = ref(false)
 
 export default defineComponent({
   name: 'Home',
-  components: { Content, Modal },
+  components: { Content, Modal, FakeWechatBackground },
   setup () {
     const router = useRouter()
     const store = useStore()

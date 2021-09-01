@@ -1,8 +1,6 @@
 <template>
   <div class="body">
-    <FakeWechatBackground>
-      <router-view/>
-    </FakeWechatBackground>
+    <router-view/>
   </div>
 </template>
 
@@ -10,17 +8,28 @@
 import { defineComponent, onMounted } from 'vue'
 import storage from '@/utils/storage'
 import { useStore } from 'vuex'
-import FakeWechatBackground from './components/FakeWechatBackground.vue'
+import { checkLocalUser } from './utils/auth'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
-  components: { FakeWechatBackground },
   setup () {
     const store = useStore()
+    const router = useRouter()
 
-    onMounted(() => {
+    onMounted(async () => {
       if (storage.get('INFO')) {
         console.log(storage.get('INFO'))
         store.commit('SET_INFO', storage.get('INFO'))
+      }
+      if (storage.get('USERNAME') && storage.get('PASSWORD')) {
+        try {
+          await checkLocalUser()
+        } catch (e) {
+          // auth fail
+          window.location.href = 'https://www.bilibili.com/'
+        }
+      } else {
+        router.push({ name: 'Login' })
       }
     })
 
