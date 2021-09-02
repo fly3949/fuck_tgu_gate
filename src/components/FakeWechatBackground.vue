@@ -27,10 +27,11 @@ export default defineComponent({
       const mc = new Hammer.Manager(stage)
       const Pan = new Hammer.Pan()
       mc.add(Pan)
+      let initialMargin = 0
       mc.on('panmove', (e: any) => {
-        // console.log(e)
-        const deltaY = Math.round(Math.pow(e.deltaY, 0.8))
-        marginTop.value = deltaY
+        console.log(e)
+        const computedDeltaY = e.deltaY > 0 ? Math.round(Math.pow(e.deltaY, 0.8)) : e.deltaY
+        marginTop.value = -initialMargin > e.deltaY ? initialMargin + e.deltaY : computedDeltaY
       })
       mc.on('panstart', (e: any) => {
         // console.log(e)
@@ -39,7 +40,10 @@ export default defineComponent({
       mc.on('panend', (e: any) => {
         // console.log(e)
         isAnimated.value = true
-        marginTop.value = 0
+        if (marginTop.value > 0) {
+          marginTop.value = 0
+        }
+        initialMargin = marginTop.value
       })
     })
 
@@ -56,6 +60,8 @@ export default defineComponent({
 .wrapper {
   position: relative;
   background-color: #ededed;
+  height: 100vh;
+  overflow: hidden;
 
   .background {
     position: absolute;
