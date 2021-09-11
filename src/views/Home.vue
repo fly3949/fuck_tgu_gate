@@ -21,6 +21,7 @@ import { Toast } from 'vant'
 import dayjs from '@/utils/dayjs'
 import Modal from '@/components/Modal.vue'
 import FakeWechatBackground from '../components/FakeWechatBackground.vue'
+import { randomNum } from '@/utils/ common'
 
 const showOutModal = ref(false)
 const showEnterModal = ref(false)
@@ -77,13 +78,21 @@ export default defineComponent({
     })
 
     function handleOutSchool () {
-      showOutModal.value = false
-      store.commit('SET_STATUS', 2)
+      // 随机延迟
+      const timeout = randomNum(3000, 6000)
+      setTimeout(() => {
+        showOutModal.value = false
+        store.commit('SET_STATUS', 2)
+      }, timeout)
     }
 
     function handleEnterSchool () {
-      showEnterModal.value = false
-      store.commit('SET_STATUS', 3)
+      // 随机延迟
+      const timeout = randomNum(3000, 6000)
+      setTimeout(() => {
+        showEnterModal.value = false
+        store.commit('SET_STATUS', 3)
+      }, timeout)
     }
 
     provide('info', form.value)
