@@ -79,7 +79,7 @@ export default defineComponent({
 
     function handleOutSchool () {
       // 随机延迟
-      const timeout = randomNum(3000, 6000)
+      const timeout = randomNum(1000, 3000)
       setTimeout(() => {
         showOutModal.value = false
         store.commit('SET_STATUS', 2)
@@ -88,7 +88,7 @@ export default defineComponent({
 
     function handleEnterSchool () {
       // 随机延迟
-      const timeout = randomNum(3000, 6000)
+      const timeout = randomNum(1000, 3000)
       setTimeout(() => {
         showEnterModal.value = false
         store.commit('SET_STATUS', 3)
